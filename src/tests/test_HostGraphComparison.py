@@ -19,7 +19,7 @@ from pathlib import Path
 import numpy as np
 import pandas as pd
 
-from Host import host_GraphComparison as gc
+from dietmicrobehost import host_GraphComparison as gc
 
 
 # ---------------------------------------------------------------------------

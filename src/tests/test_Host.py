@@ -1,8 +1,8 @@
 import unittest
 import pandas as pd
 import networkx as nx
-from Host import host_nodes_edges as hne
-from Host import host_run_graph as hrg
+from dietmicrobehost import host_nodes_edges as hne
+from dietmicrobehost import host_run_graph as hrg
 
 # create dummy data 
 food_meta_df = pd.DataFrame({
