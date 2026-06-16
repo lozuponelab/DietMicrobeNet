@@ -33,7 +33,7 @@ suppressPackageStartupMessages({
 ```
 
 ```{r load-data}
-hmdb <- read_csv("../Data/hmdb.csv")
+hmdb <- read_csv("../../Data/hmdb.csv")
 colnames(hmdb)[1] <- "compound"
 patterns  <- read_csv(params$patterns)
 reactions <- read_json(params$reactions)
