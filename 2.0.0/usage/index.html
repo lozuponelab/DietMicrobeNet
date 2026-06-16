@@ -1,0 +1,1462 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Creating metabolic networks to find what dietary originating compounds microbes are capable of metabolizing">
+      
+      
+      
+        <link rel="canonical" href="https://acolorado1.github.io/DietMicrobeNet/2.0.0/usage/">
+      
+      
+        <link rel="prev" href="../quickstart/">
+      
+      
+        <link rel="next" href="../intersample_comp/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-ProperDocs 1.6.7, mkdocs-material-9.7.6">
+    
+    
+      
+        <title>Running the Pipeline - DietMicrobeNet</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.484c7ddc.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    <body dir="ltr">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#running-the-pipeline" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+      <div data-md-color-scheme="default" data-md-component="outdated" hidden>
+        
+      </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="DietMicrobeNet" class="md-header__button md-logo" aria-label="DietMicrobeNet" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            DietMicrobeNet
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Running the Pipeline
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href=".." class="md-tabs__link">
+        
+  
+  
+    
+  
+  Home
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../installation/" class="md-tabs__link">
+          
+  
+  
+  Getting Started
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="./" class="md-tabs__link">
+          
+  
+  
+  Usage
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../output/" class="md-tabs__link">
+          
+  
+  
+  Output
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../CHANGELOG/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Changelog
+
+      </a>
+    </li>
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+  
+
+<nav class="md-nav md-nav--primary md-nav--lifted md-nav--integrated" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="DietMicrobeNet" class="md-nav__button md-logo" aria-label="DietMicrobeNet" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    DietMicrobeNet
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Getting Started
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Getting Started
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../installation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Installation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../quickstart/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Quick Start
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Usage
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Usage
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Running the Pipeline
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Running the Pipeline
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#overview" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Overview
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#step-1-create-a-machine-readable-ffq" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 1 — Create a Machine-Readable FFQ
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#step-2-choose-a-compound-source" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 2 — Choose a Compound Source
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Step 2 — Choose a Compound Source">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#option-a-foodb-experimental" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Option A: FooDB (Experimental)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#option-b-kegg-whole-genomes-genome-based-prediction" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Option B: KEGG Whole Genomes (Genome-Based Prediction)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#step-3-foodb-workflow" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 3 — FooDB Workflow
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Step 3 — FooDB Workflow">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-generate-foodcompound-metadata" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Generate Food–Compound Metadata
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-generate-food-compound-report-optional" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Generate Food Compound Report (optional)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-run-amon" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Run AMON
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-create-graph-data" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Create Graph Data
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#python-srcdietmicrobemain_metabpy-f-food_metacsv-r-amon_outputrn_dictjson-m_meta-datatest_sampleko_taxonomy_abundancecsv-e-weights-n-weights-org-a-abundance_rpks-o-graph" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        python src/dietmicrobe/main_metab.py \ --f &quot;food_meta.csv&quot; \ --r &quot;AMON_output/rn_dict.json&quot; \ --m_meta &quot;Data/test_sample/ko_taxonomy_abundance.csv&quot; \ --e-weights \ --n-weights \ --org \ --a &quot;Abundance_RPKs&quot; \ --o &quot;graph/&quot;
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#step-4-microbial-compound-report-optional" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 4 — Microbial Compound Report (optional)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#step-5-build-graph-and-extract-patterns" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 5 — Build Graph and Extract Patterns
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#step-6-visualize-graph-results" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 6 — Visualize Graph Results
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#step-7-metabolome-comparison" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 7 — Metabolome Comparison
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Step 7 — Metabolome Comparison">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#inputs" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Inputs
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#running-the-script" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Running the script
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../intersample_comp/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Inter-Sample Comparison
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../metabolome_comp.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Metabolome Comparison
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Output
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Output
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../output/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Output Files
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../CHANGELOG/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Changelog
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="running-the-pipeline">Running the Pipeline</h1>
+<p>This pipeline converts dietary data (e.g., FFQs) and microbial gene information into a
+graph structure for analyzing metabolic interactions between food and gut microbes.</p>
+<hr />
+<h2 id="overview">Overview</h2>
+<pre class="mermaid"><code>graph LR
+  A[FFQ / Food List] --&gt; B[Compound Source]
+  B --&gt; C1[FooDB Workflow]
+  B --&gt; C2[Whole Genome Workflow]
+  C1 --&gt; D[Graph Data]
+  C2 --&gt; D
+  D --&gt; E[Pattern Extraction]
+  E --&gt; F[Visualization]</code></pre>
+<table>
+<thead>
+<tr>
+<th>Step</th>
+<th>Description</th>
+<th>Required</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>Launch Streamlit app to create machine-readable FFQ</td>
+<td>Optional</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Choose compound source (FooDB or KEGG)</td>
+<td>✅</td>
+</tr>
+<tr>
+<td>2A</td>
+<td>If FooDB, determine if host is included</td>
+<td>Optional</td>
+</tr>
+<tr>
+<td>3A/3B</td>
+<td>Generate nodes and edges</td>
+<td>✅</td>
+</tr>
+<tr>
+<td>4</td>
+<td>Microbial compound report</td>
+<td>Optional</td>
+</tr>
+<tr>
+<td>5</td>
+<td>Build graph and extract patterns</td>
+<td>✅</td>
+</tr>
+<tr>
+<td>6</td>
+<td>Visualize results</td>
+<td>Optional</td>
+</tr>
+<tr>
+<td>7</td>
+<td>Metabolome comparison</td>
+<td>Optional</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="step-1-create-a-machine-readable-ffq">Step 1 — Create a Machine-Readable FFQ</h2>
+<p>Food Frequency Questionnaires (FFQs) capture how often participants consume specific foods,
+but they aren't directly usable in computational workflows due to format heterogeneity,
+lack of molecular resolution, and inconsistent structure.</p>
+<p>A Streamlit app is provided to generate standardized, machine-readable FFQ datasets that
+map food items to compounds via <strong>FooDB</strong>.</p>
+<div class="highlight"><pre><span></span><code>streamlit<span class="w"> </span>run<span class="w"> </span>src/get_foods.py
+</code></pre></div>
+<p>In the app:
+1. Search for and select foods
+2. Assign a consumption frequency (1–100%)
+3. Download the generated dataset
+4. Shut down the application</p>
+<div class="admonition tip">
+<p class="admonition-title">No FFQ? No problem.</p>
+<p>You can run the pipeline using all foods available in FooDB. Skip food metadata
+creation in Step 3A, or pass the <code>foodb</code> and <code>all-foods</code> flags in the workflow runner.
+Food compound reports are skipped due to dataset size.</p>
+</div>
+<hr />
+<h2 id="step-2-choose-a-compound-source">Step 2 — Choose a Compound Source</h2>
+<h3 id="option-a-foodb-experimental">Option A: FooDB (Experimental)</h3>
+<p>FooDB contains compounds identified in foods via LC-MS experiments, many of which link
+to KEGG. Core metabolic compounds (amino acids, sugars, fatty acids, nucleotides) are
+well-represented, but specialized plant compounds (flavonoids, alkaloids, terpenes) may
+be missing.</p>
+<p><strong>Limitations:</strong> Incomplete compound coverage · Limited food representation · U.S.-centric food data</p>
+<h3 id="option-b-kegg-whole-genomes-genome-based-prediction">Option B: KEGG Whole Genomes (Genome-Based Prediction)</h3>
+<p>Compounds are inferred from an organism's genome based on its metabolic capabilities
+using KEGG organism data.</p>
+<p><strong>Limitations:</strong> Requires decomposing complex foods into components · Doesn't account for
+ripeness or cooking · Predictions may not reflect actual composition</p>
+<p><img alt="Graph Creation Methods" src="../img/graph_creation_workflow.png" /></p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p><a href="https://github.com/lozuponelab/AMON">AMON</a> takes a list of KOs and finds producible
+compounds via KEGG reactions, assigning their origin (dietary vs. microbial).</p>
+</div>
+<hr />
+<h2 id="step-3-foodb-workflow">Step 3 — FooDB Workflow</h2>
+<h3 id="1-generate-foodcompound-metadata">1. Generate Food–Compound Metadata</h3>
+<blockquote>
+<p>Skip this step if using all FooDB foods — <code>Data/AllFood/food_meta.csv</code> is pre-built.</p>
+</blockquote>
+<div class="highlight"><pre><span></span><code>Rscript<span class="w"> </span>src/dietmicrobe/comp_FoodDB.R<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--diet_file<span class="w">  </span><span class="s2">&quot;Data/test_sample/foodb_foods_dataframe.csv&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--content_file<span class="w"> </span><span class="s2">&quot;Data/Content.csv&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--ExDes_file<span class="w"> </span><span class="s2">&quot;Data/CompoundExternalDescriptor.csv&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--meta_o_file<span class="w"> </span><span class="s2">&quot;food_meta.csv&quot;</span>
+</code></pre></div>
+<p><strong>Output:</strong> Food items mapped to KEGG compound IDs with aggregated consumption frequencies.</p>
+<h3 id="2-generate-food-compound-report-optional">2. Generate Food Compound Report <em>(optional)</em></h3>
+<blockquote>
+<p>Skip if using all foods — the dataset is too large.</p>
+</blockquote>
+<div class="highlight"><pre><span></span><code>python<span class="w"> </span>src/dietmicrobe/RenderCompoundAnalysis.py<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--food_file<span class="w"> </span><span class="s2">&quot;food_meta.csv&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--output<span class="w"> </span><span class="s2">&quot;food_compound_report.html&quot;</span>
+</code></pre></div>
+<h3 id="3-run-amon">3. Run AMON</h3>
+<div class="highlight"><pre><span></span><code>amon.py<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-i<span class="w"> </span><span class="s2">&quot;Data/test_sample/noquote_ko.txt&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-o<span class="w"> </span><span class="s2">&quot;AMON_output/&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--save_entries
+</code></pre></div>
+<h3 id="4-create-graph-data">4. Create Graph Data</h3>
+<h2 id="python-srcdietmicrobemain_metabpy-f-food_metacsv-r-amon_outputrn_dictjson-m_meta-datatest_sampleko_taxonomy_abundancecsv-e-weights-n-weights-org-a-abundance_rpks-o-graph"><div class="highlight"><pre><span></span><code>python<span class="w"> </span>src/dietmicrobe/main_metab.py<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--f<span class="w"> </span><span class="s2">&quot;food_meta.csv&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--r<span class="w"> </span><span class="s2">&quot;AMON_output/rn_dict.json&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--m_meta<span class="w"> </span><span class="s2">&quot;Data/test_sample/ko_taxonomy_abundance.csv&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--e-weights<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--n-weights<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--org<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--a<span class="w"> </span><span class="s2">&quot;Abundance_RPKs&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--o<span class="w"> </span><span class="s2">&quot;graph/&quot;</span>
+</code></pre></div></h2>
+<h2 id="step-4-microbial-compound-report-optional">Step 4 — Microbial Compound Report <em>(optional)</em></h2>
+<p>Requires microbial taxonomy and abundance data.</p>
+<div class="highlight"><pre><span></span><code>python<span class="w"> </span>src/RenderCompoundAnalysis_Microbe.py<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--node_file<span class="w"> </span><span class="s2">&quot;graph/nodes.csv&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--edge_file<span class="w"> </span><span class="s2">&quot;graph/edges.csv&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--output<span class="w"> </span><span class="s2">&quot;microbe_compound_report.html&quot;</span>
+</code></pre></div>
+<hr />
+<h2 id="step-5-build-graph-and-extract-patterns">Step 5 — Build Graph and Extract Patterns</h2>
+<p>For <strong>Diet -&gt; Microbe</strong> patterns run: </p>
+<div class="highlight"><pre><span></span><code>python<span class="w"> </span>src/dietmicrobe/run_graph.py<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--n<span class="w"> </span><span class="s2">&quot;graph/nodes.csv&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--e<span class="w"> </span><span class="s2">&quot;graph/edges.csv&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--o<span class="w"> </span><span class="s2">&quot;graph_results.csv&quot;</span>
+</code></pre></div>
+<p><strong>Patterns identified:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Pattern</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Food → Microbe</td>
+<td>Compound produced by diet, consumed by microbe</td>
+</tr>
+<tr>
+<td>Food → Both</td>
+<td>Compound shared between diet and microbial production</td>
+</tr>
+<tr>
+<td>Both → Both</td>
+<td>Compound produced and consumed across both sources</td>
+</tr>
+</tbody>
+</table>
+<p>For <strong>Diet -&gt; Microbe -&gt; Host</strong> patterns run: </p>
+<div class="highlight"><pre><span></span><code>python<span class="w"> </span>src/dietmicrobehost/host_run_graph.py<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--n<span class="w"> </span><span class="s2">&quot;graph/nodes.csv&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--e<span class="w"> </span><span class="s2">&quot;graph/edges.csv&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--o<span class="w"> </span><span class="s2">&quot;graph_results.csv&quot;</span>
+</code></pre></div>
+<p><strong>Patterns identified</strong></p>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>Pattern</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>diet → microbe → host</td>
+<td>Diet-only → microbial-only → host-only transformation</td>
+</tr>
+<tr>
+<td>2</td>
+<td>diet → microbe → hostdiet</td>
+<td>Diet-only → microbial-only → host or diet origin</td>
+</tr>
+<tr>
+<td>3</td>
+<td>diet → microbe → hostmicrobe</td>
+<td>Diet-only → microbial-only → host or microbial origin</td>
+</tr>
+<tr>
+<td>4</td>
+<td>diet → microbe → all</td>
+<td>Diet-only → microbial-only → any source</td>
+</tr>
+<tr>
+<td>5</td>
+<td>diet → microbediet → host</td>
+<td>Diet-only → diet or microbial → host-only</td>
+</tr>
+<tr>
+<td>6</td>
+<td>diet → microbediet → hostdiet</td>
+<td>Diet-only → diet or microbial → host or diet origin</td>
+</tr>
+<tr>
+<td>7</td>
+<td>diet → microbediet → hostmicrobe</td>
+<td>Diet-only → diet or microbial → host or microbial origin</td>
+</tr>
+<tr>
+<td>8</td>
+<td>diet → microbediet → all</td>
+<td>Diet-only → diet or microbial → any source</td>
+</tr>
+<tr>
+<td>9</td>
+<td>diet → all → host</td>
+<td>Diet-only → any source → host-only</td>
+</tr>
+<tr>
+<td>10</td>
+<td>diet → all → hostdiet</td>
+<td>Diet-only → any source → host or diet origin</td>
+</tr>
+<tr>
+<td>11</td>
+<td>diet → all → hostmicrobe</td>
+<td>Diet-only → any source → host or microbial origin</td>
+</tr>
+<tr>
+<td>12</td>
+<td>diet → all → all</td>
+<td>Diet-only → any source → any source</td>
+</tr>
+<tr>
+<td>13</td>
+<td>microbediet → microbe → host</td>
+<td>Diet or microbial → microbial-only → host-only</td>
+</tr>
+<tr>
+<td>14</td>
+<td>microbediet → microbe → hostdiet</td>
+<td>Diet or microbial → microbial-only → host or diet origin</td>
+</tr>
+<tr>
+<td>15</td>
+<td>microbediet → microbe → hostmicrobe</td>
+<td>Diet or microbial → microbial-only → host or microbial origin</td>
+</tr>
+<tr>
+<td>16</td>
+<td>microbediet → microbe → all</td>
+<td>Diet or microbial → microbial-only → any source</td>
+</tr>
+<tr>
+<td>17</td>
+<td>microbediet → microbediet → host</td>
+<td>Diet or microbial → diet or microbial → host-only</td>
+</tr>
+<tr>
+<td>18</td>
+<td>microbediet → microbediet → hostdiet</td>
+<td>Diet or microbial → diet or microbial → host or diet origin</td>
+</tr>
+<tr>
+<td>19</td>
+<td>microbediet → microbediet → hostmicrobe</td>
+<td>Diet or microbial → diet or microbial → host or microbial origin</td>
+</tr>
+<tr>
+<td>20</td>
+<td>microbediet → microbediet → all</td>
+<td>Diet or microbial → diet or microbial → any source</td>
+</tr>
+<tr>
+<td>21</td>
+<td>microbediet → all → host</td>
+<td>Diet or microbial → any source → host-only</td>
+</tr>
+<tr>
+<td>22</td>
+<td>microbediet → all → hostdiet</td>
+<td>Diet or microbial → any source → host or diet origin</td>
+</tr>
+<tr>
+<td>23</td>
+<td>microbediet → all → hostmicrobe</td>
+<td>Diet or microbial → any source → host or microbial origin</td>
+</tr>
+<tr>
+<td>24</td>
+<td>microbediet → all → all</td>
+<td>Diet or microbial → any source → any source</td>
+</tr>
+<tr>
+<td>25</td>
+<td>all → microbe → host</td>
+<td>Any source → microbial-only → host-only</td>
+</tr>
+<tr>
+<td>26</td>
+<td>all → microbe → hostdiet</td>
+<td>Any source → microbial-only → host or diet origin</td>
+</tr>
+<tr>
+<td>27</td>
+<td>all → microbe → hostmicrobe</td>
+<td>Any source → microbial-only → host or microbial origin</td>
+</tr>
+<tr>
+<td>28</td>
+<td>all → microbe → all</td>
+<td>Any source → microbial-only → any source</td>
+</tr>
+<tr>
+<td>29</td>
+<td>all → microbediet → host</td>
+<td>Any source → diet or microbial → host-only</td>
+</tr>
+<tr>
+<td>30</td>
+<td>all → microbediet → hostdiet</td>
+<td>Any source → diet or microbial → host or diet origin</td>
+</tr>
+<tr>
+<td>31</td>
+<td>all → microbediet → hostmicrobe</td>
+<td>Any source → diet or microbial → host or microbial origin</td>
+</tr>
+<tr>
+<td>32</td>
+<td>all → microbediet → all</td>
+<td>Any source → diet or microbial → any source</td>
+</tr>
+<tr>
+<td>33</td>
+<td>all → all → host</td>
+<td>Any source → any source → host-only</td>
+</tr>
+<tr>
+<td>34</td>
+<td>all → all → hostdiet</td>
+<td>Any source → any source → host or diet origin</td>
+</tr>
+<tr>
+<td>35</td>
+<td>all → all → hostmicrobe</td>
+<td>Any source → any source → host or microbial origin</td>
+</tr>
+<tr>
+<td>36</td>
+<td>all → all → all</td>
+<td>Any source → any source → any source</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="step-6-visualize-graph-results">Step 6 — Visualize Graph Results</h2>
+<p><div class="highlight"><pre><span></span><code>python<span class="w"> </span>src/dietmicrobe/RenderGraphResults_Report.py<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--patterns<span class="w"> </span><span class="s2">&quot;graph_results.csv&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--rxn_json<span class="w"> </span><span class="s2">&quot;AMON_output/rn_dict.json&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--output<span class="w"> </span><span class="s2">&quot;graph_results_report.html&quot;</span>
+</code></pre></div>
+or </p>
+<div class="highlight"><pre><span></span><code>python<span class="w"> </span>src/dietmicrobehost/RenderGraphResults_Report.py<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--patterns<span class="w"> </span><span class="s2">&quot;graph_results.csv&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--rxn_json<span class="w"> </span><span class="s2">&quot;AMON_output/rn_dict.json&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--output<span class="w"> </span><span class="s2">&quot;graph_results_report.html&quot;</span>
+</code></pre></div>
+<h2 id="step-7-metabolome-comparison">Step 7 — Metabolome Comparison</h2>
+<p>To view which compounds identified in the patterns were also found in a metabolomics experiment you performed, two inputs are needed: </p>
+<h3 id="inputs">Inputs</h3>
+<ol>
+<li>
+<p>A <code>graph_results.csv</code> or the output of Step 4. </p>
+</li>
+<li>
+<p>CSV containing a list of KEGG compounds that were identified in the metabolome. An example of this file can be found in <code>Data/test_sample/metabolome.csv</code>.</p>
+</li>
+</ol>
+<h3 id="running-the-script">Running the script</h3>
+<p>To get a list of optional and required arguments run <code>python src/RenderMetabolomeComparison.py -h</code>:</p>
+<div class="highlight"><pre><span></span><code>options:
+  -h, --help            show this help message and exit
+  --patterns PATTERNS   Path to the graph_results.csv
+  --metabolome METABOLOME
+                        Path to CSV file containing one column of KEGG compounds.
+  --output OUTPUT       Path to HTML report file
+</code></pre></div>
+<div class="admonition tip">
+<p class="admonition-title">Tip</p>
+<p>Use <code>run_workflow.py</code> to run steps 2-7 with Snakemake workflow described on the <a href="../">home page</a> automatically. See the <a href="../quickstart/">Quick Start guide</a> for a complete example.</p>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": ["navigation.tabs", "navigation.sections", "navigation.top", "toc.integrate"], "search": "../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"provider": "mike"}}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+        <script src="https://unpkg.com/mermaid@10/dist/mermaid.min.js"></script>
+      
+    
+  </body>
+</html>
