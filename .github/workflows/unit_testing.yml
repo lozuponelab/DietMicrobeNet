@@ -22,7 +22,7 @@ jobs:
           cd src/tests/
           python -m unittest test_Host
 
-  foodb_test:
+  dietmicrobe_test:
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -36,9 +36,9 @@ jobs:
       - run: |
           pip install -e .
           cd src/tests/
-          python -m unittest test_Foodb
+          python -m unittest test_DietMicrobe
 
-  graphcomparison_test:
+  dm_graphcomparison_test:
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -52,7 +52,7 @@ jobs:
       - run: |
           pip install -e .
           cd src/tests/
-          python -m unittest test_GraphComparison
+          python -m unittest test_DMGraphComparison
 
   host_graphcomparison_test:
     runs-on: ubuntu-latest
