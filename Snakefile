@@ -184,7 +184,7 @@ if DIETMICROBE:
         shell:
             """
             mkdir -p {params.graph_dir}
-            python src/dietmicrobe/main_foodb.py \
+            python src/dietmicrobe/main_dm.py \
                 --f {input.f_meta} \
                 --r {input.rn_json} \
                 --m_meta {input.m_meta} \
