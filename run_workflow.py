@@ -11,9 +11,8 @@ def main():
     # Workflow config
     parser.add_argument("--directories", nargs="+", required=True,
                         help="List of input directories, MUST be absolute paths")
-    parser.add_argument("--foodb", action="store_true", help="Enable foodb based analysis")
-    parser.add_argument("--genome", action="store_true", help="Enable genome based analysis")
-    parser.add_argument("--host", action="store_true", help="Enable host based analysis")
+    parser.add_argument("--dietmicrobe", action="store_true", help="Enable dietmicrobe based analysis")
+    parser.add_argument("--dietmicrobehost", action="store_true", help="Enable dietmicrobehost based analysis")
     parser.add_argument("--metabolome", action="store_true", help="Include if comparison to known metabolome is wanted")
     parser.add_argument("--e-weights", action="store_true", help="Enable edge weights: read abundance")
     parser.add_argument("--n-weights", action="store_true", help="Enable node weights: food frequency")
@@ -40,9 +39,8 @@ def main():
     # Prepare config dict
     config_args = {
         "directories": directories_str,
-        "foodb": args.foodb,
-        "genome": args.genome,
-        "host": args.host,
+        "dietmicrobe": args.foodb,
+        "dietmicrobehost": args.host,
         "metabolome": args.metabolome,
         "e_weights": args.e_weights,
         "n_weights": args.n_weights,

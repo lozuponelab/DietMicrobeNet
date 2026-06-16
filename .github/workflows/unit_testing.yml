@@ -22,7 +22,7 @@ jobs:
           cd src/tests/
           python -m unittest test_Host
 
-  foodb_test:
+  dietmicrobe_test:
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -36,9 +36,9 @@ jobs:
       - run: |
           pip install -e .
           cd src/tests/
-          python -m unittest test_Foodb
+          python -m unittest test_DietMicrobe
 
-  wholegenome_test:
+  dm_graphcomparison_test:
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -52,23 +52,7 @@ jobs:
       - run: |
           pip install -e .
           cd src/tests/
-          python -m unittest test_WholeGenome
-
-  graphcomparison_test:
-    runs-on: ubuntu-latest
-    defaults:
-      run:
-        shell: bash -l {0}
-    steps:
-      - uses: actions/checkout@v2
-      - uses: conda-incubator/setup-miniconda@v2
-        with:
-          activate-environment: DietMicrobeNet
-          environment-file: environment.yaml
-      - run: |
-          pip install -e .
-          cd src/tests/
-          python -m unittest test_GraphComparison
+          python -m unittest test_DMGraphComparison
 
   host_graphcomparison_test:
     runs-on: ubuntu-latest
