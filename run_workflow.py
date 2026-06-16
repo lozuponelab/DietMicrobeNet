@@ -39,8 +39,8 @@ def main():
     # Prepare config dict
     config_args = {
         "directories": directories_str,
-        "dietmicrobe": args.foodb,
-        "dietmicrobehost": args.host,
+        "dietmicrobe": args.dietmicrobe,
+        "dietmicrobehost": args.dietmicrobehost,
         "metabolome": args.metabolome,
         "e_weights": args.e_weights,
         "n_weights": args.n_weights,
