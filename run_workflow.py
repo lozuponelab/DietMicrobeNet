@@ -12,7 +12,6 @@ def main():
     parser.add_argument("--directories", nargs="+", required=True,
                         help="List of input directories, MUST be absolute paths")
     parser.add_argument("--foodb", action="store_true", help="Enable foodb based analysis")
-    parser.add_argument("--genome", action="store_true", help="Enable genome based analysis")
     parser.add_argument("--host", action="store_true", help="Enable host based analysis")
     parser.add_argument("--metabolome", action="store_true", help="Include if comparison to known metabolome is wanted")
     parser.add_argument("--e-weights", action="store_true", help="Enable edge weights: read abundance")
@@ -41,7 +40,6 @@ def main():
     config_args = {
         "directories": directories_str,
         "foodb": args.foodb,
-        "genome": args.genome,
         "host": args.host,
         "metabolome": args.metabolome,
         "e_weights": args.e_weights,

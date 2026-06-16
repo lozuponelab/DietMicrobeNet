@@ -5,7 +5,6 @@ import os
 # -----------------------------------
 DIRECTORIES   = [d.strip().rstrip("/") for d in config["directories"].split(",")]
 FOODB         = config.get("foodb", False)
-GENOME        = config.get("genome", False)
 HOST          = config.get("host", False)
 METABOLOME    = config.get("metabolome", False)
 E_WEIGHTS     = config.get("e_weights", False)
@@ -20,7 +19,6 @@ with open("VERSION") as f:
 print("Running with config:")
 print(f"  Directories:    {DIRECTORIES}")
 print(f"  FooDB:          {FOODB}")
-print(f"  Genome:         {GENOME}")
 print(f"  Host:           {HOST}")
 print(f"  Metabolome:     {METABOLOME}")
 print(f"  E Weights:      {E_WEIGHTS}")
@@ -72,15 +70,7 @@ rule all:
         *([f"{d}/output_host/microbe_compound_report.html" for d in DIRECTORIES]
           if HOST and INCLUDE_ORGS and N_WEIGHTS else []),
         *([f"{d}/output_host/graph/graph_results_report.html" for d in DIRECTORIES]
-          if HOST else []),
-
-        # Genome outputs
-        *([f"{d}/output_gen/food_compound_report.html" for d in DIRECTORIES]
-          if GENOME else []),
-        *([f"{d}/output_gen/microbe_compound_report.html" for d in DIRECTORIES]
-          if GENOME and INCLUDE_ORGS and N_WEIGHTS else []),
-        *([f"{d}/output_gen/graph/graph_results_report.html" for d in DIRECTORIES]
-          if GENOME else [])
+          if HOST else [])
 
 # ---------------------------
 # Run metadata generation
@@ -254,186 +244,6 @@ if FOODB:
             metabolome = "{dir}/metabolome.csv"
         output: 
             output = "{dir}/output_fdb/"
-        conda: "environment.yaml"
-        shell: 
-            """
-            python {workflow.basedir}/src/RenderMetabolomeComparison.py \
-                --patterns {input.graph_res} \
-                --metabolome {input.metabolome} \
-                --output {output.output}
-            """
-
-# ---------------------------
-# Genome rules
-# ---------------------------
-if GENOME:
-
-    rule all_gen:
-        input: 
-            "{dir}/output_gen/food_item_kos.csv",
-            "{dir}/output_gen/org_KO/joined.txt",
-            "{dir}/output_gen/AMON_output/rn_dict.json",
-            "{dir}/output_gen/AMON_output/kegg_mapper.tsv", 
-            "{dir}/output_gen/graph/WG_nodes_df.csv",
-            "{dir}/output_gen/graph/WG_edges_df.csv",
-            "{dir}/output_gen/graph/WG_AbundanceDistribution.png",
-            "{dir}/output_gen/graph/WG_FoodFrequencyDistribution.png", 
-            "{dir}/output_gen/food_compound_report.html",
-            "{dir}/output_gen/graph/network_summary.txt",
-            "{dir}/output_gen/microbe_compound_report.html" if INCLUDE_ORGS and N_WEIGHTS else [],
-            "{dir}/output_gen/graph/graph_results.csv", 
-            "{dir}/output_gen/graph/graph_results_report.html",
-            "{dir}/output_gen/MetabolomeComparison_Report.html" if METABOLOME else []
-
-
-    rule CreateFoodMetadata_gen:
-        input: 
-            kegg_orgs = "{dir}/kegg_organisms_dataframe.csv"
-        params: 
-            kos_dir = "{dir}/output_gen/org_KO"
-        output: 
-            food_meta = "{dir}/output_gen/food_item_kos.csv",
-            joined = "{dir}/output_gen/org_KO/joined.txt"
-        conda: "environment.yaml"
-        shell:
-            """
-            mkdir -p {params.kos_dir}
-            python src/WholeGenome_proc/comp_KEGG.py \
-                -i {input.kegg_orgs} \
-                -k {params.kos_dir} \
-                -o {output.food_meta}
-            """
-
-    rule PrepareAMONOutput_gen:
-        input: 
-            dir="{dir}"
-        output:
-            touch("{dir}/output_gen/AMON_output/.prepared")
-        run:
-            import os, shutil
-            outdir = os.path.join(input.dir, "output_gen", "AMON_output")
-            if os.path.exists(outdir):
-                shutil.rmtree(outdir)
-            os.makedirs(outdir, exist_ok=True)
-            # create a dummy file so Snakemake sees this as complete
-            open(output[0], 'w').close()
-
-    rule RunAMON_gen:
-        input: 
-            prep = "{dir}/output_gen/AMON_output/.prepared",  # depends on folder prep
-            microbe_kos = "{dir}/noquote_ko.txt",
-            diet_kos    = "{dir}/output_gen/org_KO/joined.txt"
-        output: 
-            rn_json = "{dir}/output_gen/AMON_output/rn_dict.json",
-            mapper  = "{dir}/output_gen/AMON_output/kegg_mapper.tsv"
-        conda: "environment.yaml"
-        shell:
-            """
-            rm -rf {wildcards.dir}/output_gen/AMON_output
-            amon \
-                -i {input.microbe_kos} \
-                -o {wildcards.dir}/output_gen/AMON_output \
-                --other_gene_set {input.diet_kos} \
-                --save_entries
-            """
-    
-    rule GraphCreation_gen:
-        input: 
-            f_meta = "{dir}/output_gen/food_item_kos.csv",
-            m_meta = "{dir}/ko_taxonomy_abundance.csv",
-            mapper = "{dir}/output_gen/AMON_output/kegg_mapper.tsv", 
-            rn_json = "{dir}/output_gen/AMON_output/rn_dict.json"
-        params: 
-            flags = " ".join(filter(None, [
-                "--n_weights" if N_WEIGHTS else "",
-                "--e_weights" if E_WEIGHTS else "",
-                "--org" if INCLUDE_ORGS else ""
-            ])),
-            abundance = ABUNDANCE_COL,
-            graph_dir = "{dir}/output_gen/graph/"
-        output:
-            nodes = "{dir}/output_gen/graph/WG_nodes_df.csv",
-            edges = "{dir}/output_gen/graph/WG_edges_df.csv",
-            summary = "{dir}/output_gen/graph/network_summary.txt"
-        conda: "environment.yaml"
-        shell: 
-            """
-            mkdir -p {params.graph_dir}
-            python src/WholeGenome_proc/main_geno.py \
-                --f_meta {input.f_meta} \
-                --m_meta {input.m_meta} \
-                --mapper {input.mapper} \
-                --rn_json {input.rn_json} \
-                {params.flags} \
-                --a {params.abundance} \
-                --o {params.graph_dir}
-            """
-
-    
-    rule CreateCompoundReport_gen:
-        input: 
-            node_file = "{dir}/output_gen/graph/WG_nodes_df.csv"
-        output: 
-            o = "{dir}/output_gen/food_compound_report.html"
-        shell: 
-            """
-            python {workflow.basedir}/src/WholeGenome_proc/RenderCompoundAnalysis.py \
-                --node_file {input.node_file} \
-                --output {output.o}
-            """
-    
-    if INCLUDE_ORGS and N_WEIGHTS:
-        rule MicrobeCompoundReport_gen:
-            input:
-                nodes = "{dir}/output_gen/graph/WG_nodes_df.csv",
-                edges = "{dir}/output_gen/graph/WG_edges_df.csv"
-            output:
-                report = "{dir}/output_gen/microbe_compound_report.html"
-            conda: "environment.yaml"
-            shell:
-                """
-                python {workflow.basedir}/src/RenderCompoundAnalysis_Microbe.py \
-                    --node_file {input.nodes} \
-                    --edge_file {input.edges} \
-                    --output {output.report}
-                """
-    
-    rule RunGraph_gen: 
-        input: 
-            nodes = "{dir}/output_gen/graph/WG_nodes_df.csv",
-            edges = "{dir}/output_gen/graph/WG_edges_df.csv"
-        output: 
-            output = "{dir}/output_gen/graph/graph_results.csv"
-        conda: "environment.yaml"
-        shell:
-            """
-            python src/run_graph.py \
-                --n {input.nodes} \
-                --e {input.edges} \
-                --o {output.output}
-            """
-    
-    rule PatternReport_gen: 
-        input: 
-            graph_res = "{dir}/output_gen/graph/graph_results.csv",
-            rxn_json = "{dir}/output_gen/AMON_output/rn_dict.json"
-        output: 
-            output = "{dir}/output_gen/graph/graph_results_report.html"
-        conda: "environment.yaml"
-        shell: 
-            """
-            python {workflow.basedir}/src/RenderGraphResults_Report.py \
-                --patterns {input.graph_res} \
-                --rxn_json {input.rxn_json} \
-                --output {output.output}
-            """
-
-    rule MetabolomeComparisonReport_gen: 
-        input: 
-            graph_res = "{dir}/output_gen/graph/graph_results.csv",
-            metabolome = "{dir}/metabolome.csv"
-        output: 
-            output = "{dir}/output_gen/"
         conda: "environment.yaml"
         shell: 
             """
