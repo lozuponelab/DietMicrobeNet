@@ -6,8 +6,8 @@ from pathlib import Path
 import pandas as pd
 import numpy as np
 
-# Import your module
-import GraphComparison as gc
+# Import  module
+from dietmicrobe import GraphComparison as gc
 
 
 class TestGraphCompare(unittest.TestCase):
