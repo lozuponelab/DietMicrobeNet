@@ -13,7 +13,7 @@ In order to find similarities and differences between the graphs/patterns we loo
 To get a list of optional and required arguments run `python src/GraphComparison.py -h`: 
 
 ```bash
-python src/GraphComparison.py -h
+python src/dietmicrobe/GraphComparison.py -h
 usage: GraphComparison.py [-h] -m METADATA -p PATHS -n NAMES [-s] [-g GROUPS] -o OUTPUT [--ko_column KO_COLUMN]
 
 Compare graph results across samples using KOs and Jaccard similarity.
@@ -33,7 +33,7 @@ options:
 
 ### Diet Microbe Host Graphs 
 
-To get a list of optional and required arguments run `python src/Host/host_GraphComparison.py -h`:
+To get a list of optional and required arguments run `python src/dietmicrobehost/host_GraphComparison.py -h`:
 
 ```bash
 usage: host_GraphComparison.py [-h] -m METADATA -p PATHS -n NAMES [-s] [-g GROUPS] -o OUTPUT
@@ -63,7 +63,7 @@ options:
 Example usage w/o stats: 
 
 ```bash
-python src/GraphComparison.py \ 
+python src/dietmicrobe/GraphComparison.py \ 
 -m "path/to/metadata.csv" \
 -p "paths_column_name" \
 -n "names_column_name" \
@@ -73,7 +73,7 @@ python src/GraphComparison.py \
 Example usage w/ stats: 
 
 ```bash
-python src/GraphComparison.py \ 
+python src/dietmicrobe/GraphComparison.py \ 
 -m "path/to/metadata.csv" \
 -p "paths_column_name" \
 -n "names_column_name" \

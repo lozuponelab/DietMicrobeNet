@@ -5,7 +5,7 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "dietmicrobenet"
 license = {text = "MIT"}
-version = "1.2.0"
+version = "2.0.0"
 authors = [
     {name = "Angela Sofia Burkhart Colorado", email = "angelasofia.burkhartcolorado@cuanschutz.edu"},
     {name = "Catherine Lozupone", email = "catherine.lozupone@cuanschutz.edu"}
@@ -19,23 +19,6 @@ dependencies = [
 ]
 
 [project.urls]
-Homepage = "https://acolorado1.github.io/DietMicrobeNet/latest/"
+Homepage = "https://lozuponelab.github.io/DietMicrobeNet/latest/"
 
-[tool.setuptools]
-package-dir = {"" = "src"}
 
-[tool.setuptools.packages.find]
-where = ["src"]
-include = ["dietmicrobenet*"]
-
-[project.scripts]
-
-dmnet-download-data = "dietmicrobenet.cli:download_data"
-
-dmnet-getfoods = "dietmicrobenet.cli:run_GetFoods"
-
-dmnet-workflow = "dietmicrobenet.cli:run_workflow"
-
-dmnet-GraphComparison = "dietmicrobenet.cli:run_DM_GraphComparison"
-
-dmnet-HostGraphComparison = "dietmicrobenet.cli:run_DMHost_GraphComparison"

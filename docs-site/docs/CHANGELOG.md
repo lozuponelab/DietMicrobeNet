@@ -1,6 +1,10 @@
 # Changelog 
 
-## v 1.2.0
+## v2.0.0
+- REMOVE: Whole genome method
+- Only FooDB based analyses will be maintained with diet-microbe or diet-microbe-host patterns being identified
+
+## v1.2.0
 - ADD: host to network creation and pattern identification 
 - ADD: metabolome comparison to the snakemake workflow 
 - UPDATE: changed graph results report to show only most and least restrictive results rather than pattern specific results 

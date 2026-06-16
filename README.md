@@ -1,16 +1,16 @@
 # DietMicrobe[Host]Net: Network Modeling of Dietary Effect on Microbial Metabolism
 
-The purpose of this code will be to create a metabolic network where nodes represent compounds and edges represent reactions. Compounds will originate from either food items (e.g. apple), microbes, host, a combination thereof or neither (cannot be predicted). Graphs are created in memory, where patterns of origin will be found and stored (for details regarding patterns see [docs](https://acolorado1.github.io/DietMicrobeNet/latest/usage/#step-5-build-graph-and-extract-patterns) ). Information such as food frequency, read abundance, and taxonomy can also be conserved within the graph depending on user preferences. This will allow a user to find potential instances of dietary metabolism by microbes and host.
+The purpose of this code will be to create a metabolic network where nodes represent compounds and edges represent reactions. Compounds will originate from either food items (e.g. apple), microbes, host, a combination thereof or neither (cannot be predicted). Graphs are created in memory, where patterns of origin will be found and stored (for details regarding patterns see [docs](https://lozuponelab.github.io/DietMicrobeNet/latest/usage/#step-5-build-graph-and-extract-patterns) ). Information such as food frequency, read abundance, and taxonomy can also be conserved within the graph depending on user preferences. This will allow a user to find potential instances of dietary metabolism by microbes and host.
 
 ## General Workflow 
 
-Every user will need to set up and install this program the same way. To do this go to [Installation](https://acolorado1.github.io/DietMicrobeNet/latest/installation/) in the repo's [Docs](https://acolorado1.github.io/DietMicrobeNet/latest/). 
+Every user will need to set up and install this program the same way. To do this go to [Installation](https://lozuponelab.github.io/DietMicrobeNet/latest/installation/) in the repo's [Docs](https://lozuponelab.github.io/DietMicrobeNet/latest/). 
 
 After getting set up, you will have decide if you want to run each step manually or use the provided Snakemake Workflow. 
 
-* For **manual approach** follow instructions in the usage section: [Running the pipeline](https://acolorado1.github.io/DietMicrobeNet/latest/usage/).
-* For **Snakemake Workflow** (RECOMMENDED) follow [Quick Start Example](https://acolorado1.github.io/DietMicrobeNet/latest/quickstart/) instructions
-* [Inter-Sample Comparison](https://acolorado1.github.io/DietMicrobeNet/latest/intersample_comp/) can be performed after manual or snakemake approach
+* For **manual approach** follow instructions in the usage section: [Running the pipeline](https://lozuponelab.github.io/DietMicrobeNet/latest/usage/).
+* For **Snakemake Workflow** (RECOMMENDED) follow [Quick Start Example](https://lozuponelab.github.io/DietMicrobeNet/latest/quickstart/) instructions
+* [Inter-Sample Comparison](https://lozuponelab.github.io/DietMicrobeNet/latest/intersample_comp/) can be performed after manual or snakemake approach
 
 ## Outputs
 

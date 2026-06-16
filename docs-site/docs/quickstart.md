@@ -11,7 +11,7 @@ This program has been tested on Mac M1 and Ubuntu/linux
 ## Installation 
 
 ```
-git clone https://github.com/acolorado1/DietMicrobeNet.git      # clone repo
+git clone https://github.com/lozuponelab/DietMicrobeNet.        # clone repo
 cd DietMicrobeNet                                               # move into this project directory
 conda env create -f DMnet_env.yaml                              # create environment
 conda activate DietMicrobeNet                                   # activate environment 
@@ -33,7 +33,6 @@ Your sample directory must contain the following files:
 | `ko_taxonomy_abundance.csv` | Microbiome KO abundances and taxonomy | ✅ |
 | `noquote_ko.txt` | KO list without quotes | ✅ |
 | `foodb_foods_dataframe.csv` | Diet data for FooDB-based analysis | ❌  only if **foodb** used and not **all foods**|
-| `kegg_organisms_dataframe.csv` | Diet data for genome-based analysis | ❌  only if **genome** used |
 | `host_ko_abundance.csv` | Host KO abundances | ❌  only if **host** is used|
 | `noquote_ko_host.txt` | KO list without quotes from host | ❌  only if **host** is used|
 | `metabolome.csv` | List of KEGG compounds | ❌  only if **metabolome** is used |
@@ -47,9 +46,8 @@ The easiest way to run DMnet is through the included `run_workflow.py` wrapper s
 | Argument | Required | Description |
 |----------|----------|-------------|
 | `--directories` | ✅ | One or more **absolute paths** to sample directories, space-separated and quoted |
-| `--foodb` | ❌ | Enable FooDB-based analysis |
-| `--genome` | ❌ | Enable genome-based analysis |
-| `--host` | ❌ | Enable host-based analysis |
+| `--dietmicrobe` | ❌ | Enable FooDB-based analysis |
+| `--dietmicrobehost` | ❌ | Enable host-based analysis |
 | `--metabolome` | ❌ | Include if comparison to known metabolome is wanted |
 | `--e-weights` | ❌ | Weight edges by read abundance |
 | `--n-weights` | ❌ | Weight nodes by food frequency |
@@ -71,9 +69,8 @@ Test data is included in `Data/test_sample/`. To run the full pipeline on it:
 ```bash
 python run_workflow.py \
     --directories "/absolute/path/to/Data/test_sample" \
-    --foodb \
-    --genome \
-    --host \
+    --dietmicrobe \
+    --dietmicrobehost \
     --metabolome\
     --e-weights \
     --n-weights \
@@ -99,7 +96,7 @@ my_directory/
 ├── foodb_foods_dataframe.csv
 ├── kegg_organisms_dataframe.csv
 ├── run_info.txt                         # pipeline metadata for this run
-├── output_fdb/                          # FooDB-based analysis outputs
+├── output_dm/                           # dietmicrobe-based analysis outputs
 │   ├── food_meta.csv
 │   ├── food_compound_report.html
 │   ├── microbe_compound_report.html     # only if --include-orgs and --n-weights
@@ -121,34 +118,7 @@ my_directory/
 │       ├── network_summary.txt
 │       ├── graph_results.csv
 │       └── graph_results_report.html
-├── output_gen/                          # Genome-based analysis outputs
-│   ├── food_item_kos.csv
-│   ├── food_compound_report.html
-│   ├── microbe_compound_report.html     # only if --include-orgs and --n-weights
-│   ├── MetabolomeComparison_Report.html # only if --metabolome
-│   ├── org_KO/
-│   │   ├── <one .txt file per food item>
-│   │   └── joined.txt
-│   ├── AMON_output/
-│   │   ├── AMON_log.txt
-│   │   ├── gene_set_1_enrichment.tsv
-│   │   ├── gene_set_2_enrichment.tsv
-│   │   ├── kegg_mapper.tsv
-│   │   ├── origin_table.tsv
-│   │   ├── enrichment_heatmap.png
-│   │   ├── venn.png
-│   │   ├── co_dict.json
-│   │   ├── ko_dict.json
-│   │   └── rn_dict.json
-│   └── graph/
-│       ├── WG_nodes_df.csv
-│       ├── WG_edges_df.csv
-│       ├── WG_AbundanceDistribution.png
-│       ├── WG_FoodFrequencyDistribution.png
-│       ├── network_summary.txt
-│       ├── graph_results.csv
-│       └── graph_results_report.html
-└── output_host/                         # Host-based analysis outputs
+└── output_dmh/                          # Host-based analysis outputs
     ├── food_meta.csv
     ├── food_compound_report.html
     ├── microbe_compound_report.html     # only if --include-orgs and --n-weights

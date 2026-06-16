@@ -4,89 +4,15 @@ import os
 import signal
 import pandas as pd
 
-# Fetch KEGG organism data
-def fetch_kegg_organisms():
-    """
-    Fetch the list of KEGG organisms.
-    Returns:
-        List of tuples containing (code, scientific_name, common_name).
-    """
-    url = "http://rest.kegg.jp/list/organism"
-    response = requests.get(url)
-    
-    if response.status_code == 200:
-        data = response.text.splitlines()
-        organisms = []
-        for line in data:
-            parts = line.split("\t")
-            if len(parts) == 4:
-                t_id, code, scientific_name, taxonomy = parts
-                organisms.append((code, scientific_name, taxonomy))
-        return organisms
-    else:
-        st.error("Failed to fetch KEGG organism data.")
-        return []
-
 # Streamlit app
 st.title("Whole Genome and/or Metabolome Representation of Diet")
 
 st.write("""
-This app allows you to customize a set of food items using KEGG organisms or FooDB (food metabolomes) that can represent a patients diet. 
+This app allows you to customize a set of food items using FooDB (food metabolomes) that can represent a patients diet. 
 Dataframes will be created based on user selections which can be downloaded as a CSV file. 
          
-Disclaimer: While KEGG is kept up-to-date, version 1.0 of FooDB is used from the CSV file added April7, 2020.
+Disclaimer: Version 1.0 of FooDB is used from the CSV file added April7, 2020.
 """)
-
-st.header("KEGG Organism Selection")
-
-st.write("To ease search, if using common name, surround it with parentheses, e.g. *(cow)*")
-# Fetch the list of KEGG organisms
-organisms = fetch_kegg_organisms()
-
-# Create a DataFrame from the organism list for easy lookup
-organism_df = pd.DataFrame(organisms, columns=["Code", "ScientificName", "Taxonomy"])
-
-# Allow the user to select multiple organisms
-selected_organisms = st.multiselect("Select KEGG Organisms", organism_df["ScientificName"].tolist())
-
-# Create an empty DataFrame to hold the selected organisms' data
-kegg_df = pd.DataFrame(columns=["Code", "ScientificName", "Taxonomy"])
-
-# Filter the DataFrame based on selected organism names
-kegg_df = organism_df[organism_df["ScientificName"].isin(selected_organisms)]
-
-# Display the DataFrame with the selected organisms and allow user input
-if not kegg_df.empty:
-    st.write("### Enter values (between 1 and 100) for each selected organism")
-
-    new_column_values = []
-    for index, row in kegg_df.iterrows():
-        value = st.number_input(
-            label=f"Enter value for {row['ScientificName']} ({row['Code']})",
-            min_value=1,
-            max_value=100,
-            step=1,
-            key=f"input_{index}"
-        )
-        new_column_values.append(value)
-
-    # Add the new user input column
-    kegg_df["food_frequency"] = new_column_values
-
-    # Display updated DataFrame
-    st.write("### Selected Organism DataFrame with Input", kegg_df)
-
-    # Enable download
-    csv = kegg_df.to_csv(index=False)
-    st.download_button(
-        label="Download Selected Organisms DataFrame as CSV",
-        data=csv,
-        file_name="kegg_organisms_dataframe.csv",
-        mime="text/csv", 
-        key="download_keeg"
-    )
-else:
-    st.write("No organisms selected.")
 
 # start the FooDB selection
 st.header("FooDB Food Item Selection")

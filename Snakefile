@@ -79,7 +79,7 @@ rule write_run_info:
     output:
         "{dir}/run_info.txt"
     run:
-        from src.SupplementalFunctions.run_info import write_run_info
+        from SupplementalFunctions.run_info import write_run_info
         write_run_info(PIPELINE_VERSION, config, output[0])
 
 # ---------------------------

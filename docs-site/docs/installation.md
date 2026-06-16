@@ -10,7 +10,7 @@ Two general things are need for program usage:
 In the terminal, go to directory of choice and clone this repo:
 
 ```
-git clone https://github.com/acolorado1/DietMicrobeNet.git       # clone repo
+git clone https://github.com/lozuponelab/DietMicrobeNet.git      # clone repo
 cd DietMicrobeNet                                                # move into this project directory 
 ```
 
@@ -82,7 +82,7 @@ Example of the file:
 
 ### Food items 
 
-* Named either *foodb_foods_dataframe.csv* or *kegg_organisms_dataframe.csv* from using the web application included 
+* Named either *foodb_foods_dataframe.csv* from using the web application included 
 * If you want to include all possible food items you can use *Data/AllFood/food_meta.csv* 
 
 ## If Host 

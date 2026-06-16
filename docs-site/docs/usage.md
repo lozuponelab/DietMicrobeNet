@@ -38,7 +38,7 @@ but they aren't directly usable in computational workflows due to format heterog
 lack of molecular resolution, and inconsistent structure.
 
 A Streamlit app is provided to generate standardized, machine-readable FFQ datasets that
-map food items to compounds via **FooDB** or **KEGG**.
+map food items to compounds via **FooDB**.
 
 ```bash
 streamlit run src/get_foods.py
@@ -84,14 +84,14 @@ ripeness or cooking · Predictions may not reflect actual composition
 
 ---
 
-## Step 3A — FooDB Workflow
+## Step 3 — FooDB Workflow
 
 ### 1. Generate Food–Compound Metadata
 
 > Skip this step if using all FooDB foods — `Data/AllFood/food_meta.csv` is pre-built.
 
 ```bash
-Rscript src/Metabolome_proc/comp_FoodDB.R \
+Rscript src/dietmicrobe/comp_FoodDB.R \
   --diet_file  "Data/test_sample/foodb_foods_dataframe.csv" \
   --content_file "Data/Content.csv" \
   --ExDes_file "Data/CompoundExternalDescriptor.csv" \
@@ -105,7 +105,7 @@ Rscript src/Metabolome_proc/comp_FoodDB.R \
 > Skip if using all foods — the dataset is too large.
 
 ```bash
-python src/Metabolome_proc/RenderCompoundAnalysis.py \
+python src/dietmicrobe/RenderCompoundAnalysis.py \
   --food_file "food_meta.csv" \
   --output "food_compound_report.html"
 ```
@@ -122,7 +122,7 @@ amon.py \
 ### 4. Create Graph Data
 
 ```bash
-python src/Metabolome_proc/main_metab.py \
+python src/dietmicrobe/main_metab.py \
   --f "food_meta.csv" \
   --r "AMON_output/rn_dict.json" \
   --m_meta "Data/test_sample/ko_taxonomy_abundance.csv" \
@@ -132,53 +132,6 @@ python src/Metabolome_proc/main_metab.py \
   --a "Abundance_RPKs" \
   --o "graph/"
 ```
-
----
-
-## Step 3B — Whole Genome Workflow
-
-### 1. Map Organisms to KOs
-
-```bash
-python src/WholeGenome_proc/comp_KEGG.py \
-  -i "Data/test_sample/kegg_organisms_dataframe.csv" \
-  -k "org_KO/" \
-  -o "food_item_kos.csv"
-```
-
-### 2. Run AMON
-
-```bash
-amon.py \
-  -i "Data/test_sample/noquote_ag_sample.txt" \
-  -o "AMON_output/" \
-  --other_gene_set "org_KO/joined.txt" \
-  --save_entries
-```
-
-### 3. Create Graph Data
-
-```bash
-python src/WholeGenome_proc/main_geno.py \
-  --f_meta "food_item_kos.csv" \
-  --m_meta "Data/test_sample/ko_taxonomy_abundance.csv" \
-  --mapper "AMON_output/kegg_mapper.tsv" \
-  --rn_json "AMON_output/rn_dict.json" \
-  --e-weights \
-  --n-weights \
-  --org \
-  --a "Abundance_RPKs" \
-  --o "graph/"
-```
-
-### 4. Generate Food Compound Report
-
-```bash
-python src/WholeGenome_proc/RenderCompoundAnalysis.py \
-  --node_file "graph/WG_nodes_df.csv" \
-  --output "food_compound_report.html"
-```
-
 ---
 
 ## Step 4 — Microbial Compound Report *(optional)*
@@ -199,7 +152,7 @@ python src/RenderCompoundAnalysis_Microbe.py \
 For **Diet -> Microbe** patterns run: 
 
 ```bash
-python src/run_graph.py \
+python src/dietmicrobe/run_graph.py \
   --n "graph/nodes.csv" \
   --e "graph/edges.csv" \
   --o "graph_results.csv"
@@ -216,7 +169,7 @@ python src/run_graph.py \
 For **Diet -> Microbe -> Host** patterns run: 
 
 ```bash
-python src/Host/host_run_graph.py \
+python src/dietmicrobehost/host_run_graph.py \
   --n "graph/nodes.csv" \
   --e "graph/edges.csv" \
   --o "graph_results.csv"
@@ -268,7 +221,15 @@ python src/Host/host_run_graph.py \
 ## Step 6 — Visualize Graph Results
 
 ```bash
-python src/RenderGraphResults_Report.py \
+python src/dietmicrobe/RenderGraphResults_Report.py \
+  --patterns "graph_results.csv" \
+  --rxn_json "AMON_output/rn_dict.json" \
+  --output "graph_results_report.html"
+```
+or 
+
+```bash
+python src/dietmicrobehost/RenderGraphResults_Report.py \
   --patterns "graph_results.csv" \
   --rxn_json "AMON_output/rn_dict.json" \
   --output "graph_results_report.html"
@@ -280,7 +241,7 @@ To view which compounds identified in the patterns were also found in a metabolo
 
 ### Inputs 
 
-1. A `graph_results.csv` or the output of **python src/run_graph.py** in Step 4. 
+1. A `graph_results.csv` or the output of Step 4. 
 
 2. CSV containing a list of KEGG compounds that were identified in the metabolome. An example of this file can be found in `Data/test_sample/metabolome.csv`.
 
