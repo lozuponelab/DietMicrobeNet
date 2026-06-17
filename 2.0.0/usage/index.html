@@ -696,17 +696,6 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#python-srcdietmicrobemain_metabpy-f-food_metacsv-r-amon_outputrn_dictjson-m_meta-datatest_sampleko_taxonomy_abundancecsv-e-weights-n-weights-org-a-abundance_rpks-o-graph" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        python src/dietmicrobe/main_metab.py \ --f &quot;food_meta.csv&quot; \ --r &quot;AMON_output/rn_dict.json&quot; \ --m_meta &quot;Data/test_sample/ko_taxonomy_abundance.csv&quot; \ --e-weights \ --n-weights \ --org \ --a &quot;Abundance_RPKs&quot; \ --o &quot;graph/&quot;
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
   <a href="#step-4-microbial-compound-report-optional" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -988,12 +977,11 @@ graph structure for analyzing metabolic interactions between food and gut microb
 <h2 id="overview">Overview</h2>
 <pre class="mermaid"><code>graph LR
   A[FFQ / Food List] --&gt; B[Compound Source]
-  B --&gt; C1[FooDB Workflow]
-  B --&gt; C2[Whole Genome Workflow]
-  C1 --&gt; D[Graph Data]
-  C2 --&gt; D
+  B --&gt; C[FooDB Workflow: DM and DMH]
+  C --&gt; D[Graph Data]
   D --&gt; E[Pattern Extraction]
-  E --&gt; F[Visualization]</code></pre>
+  E --&gt; F1[Visualization]
+  E --&gt; F2[Metabolome]</code></pre>
 <table>
 <thead>
 <tr>
@@ -1112,7 +1100,7 @@ compounds via KEGG reactions, assigning their origin (dietary vs. microbial).</p
 <span class="w">  </span>--save_entries
 </code></pre></div>
 <h3 id="4-create-graph-data">4. Create Graph Data</h3>
-<h2 id="python-srcdietmicrobemain_metabpy-f-food_metacsv-r-amon_outputrn_dictjson-m_meta-datatest_sampleko_taxonomy_abundancecsv-e-weights-n-weights-org-a-abundance_rpks-o-graph"><div class="highlight"><pre><span></span><code>python<span class="w"> </span>src/dietmicrobe/main_metab.py<span class="w"> </span><span class="se">\</span>
+<div class="highlight"><pre><span></span><code>python<span class="w"> </span>src/dietmicrobe/main_metab.py<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--f<span class="w"> </span><span class="s2">&quot;food_meta.csv&quot;</span><span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--r<span class="w"> </span><span class="s2">&quot;AMON_output/rn_dict.json&quot;</span><span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--m_meta<span class="w"> </span><span class="s2">&quot;Data/test_sample/ko_taxonomy_abundance.csv&quot;</span><span class="w"> </span><span class="se">\</span>
@@ -1121,7 +1109,8 @@ compounds via KEGG reactions, assigning their origin (dietary vs. microbial).</p
 <span class="w">  </span>--org<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--a<span class="w"> </span><span class="s2">&quot;Abundance_RPKs&quot;</span><span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--o<span class="w"> </span><span class="s2">&quot;graph/&quot;</span>
-</code></pre></div></h2>
+</code></pre></div>
+<hr />
 <h2 id="step-4-microbial-compound-report-optional">Step 4 — Microbial Compound Report <em>(optional)</em></h2>
 <p>Requires microbial taxonomy and abundance data.</p>
 <div class="highlight"><pre><span></span><code>python<span class="w"> </span>src/RenderCompoundAnalysis_Microbe.py<span class="w"> </span><span class="se">\</span>
