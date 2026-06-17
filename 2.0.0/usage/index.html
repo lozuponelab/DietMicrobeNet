@@ -604,34 +604,6 @@
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Step 2 — Choose a Compound Source">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#option-a-foodb-experimental" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Option A: FooDB (Experimental)
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#option-b-kegg-whole-genomes-genome-based-prediction" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Option B: KEGG Whole Genomes (Genome-Based Prediction)
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
 </li>
       
         <li class="md-nav__item">
@@ -1050,27 +1022,21 @@ map food items to compounds via <strong>FooDB</strong>.</p>
 <div class="admonition tip">
 <p class="admonition-title">No FFQ? No problem.</p>
 <p>You can run the pipeline using all foods available in FooDB. Skip food metadata
-creation in Step 3A, or pass the <code>foodb</code> and <code>all-foods</code> flags in the workflow runner.
+creation in Step 3, or pass the <code>foodb</code> and <code>all-foods</code> flags in the workflow runner.
 Food compound reports are skipped due to dataset size.</p>
 </div>
 <hr />
 <h2 id="step-2-choose-a-compound-source">Step 2 — Choose a Compound Source</h2>
-<h3 id="option-a-foodb-experimental">Option A: FooDB (Experimental)</h3>
 <p>FooDB contains compounds identified in foods via LC-MS experiments, many of which link
 to KEGG. Core metabolic compounds (amino acids, sugars, fatty acids, nucleotides) are
 well-represented, but specialized plant compounds (flavonoids, alkaloids, terpenes) may
 be missing.</p>
 <p><strong>Limitations:</strong> Incomplete compound coverage · Limited food representation · U.S.-centric food data</p>
-<h3 id="option-b-kegg-whole-genomes-genome-based-prediction">Option B: KEGG Whole Genomes (Genome-Based Prediction)</h3>
-<p>Compounds are inferred from an organism's genome based on its metabolic capabilities
-using KEGG organism data.</p>
-<p><strong>Limitations:</strong> Requires decomposing complex foods into components · Doesn't account for
-ripeness or cooking · Predictions may not reflect actual composition</p>
 <p><img alt="Graph Creation Methods" src="../img/graph_creation_workflow.png" /></p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p><a href="https://github.com/lozuponelab/AMON">AMON</a> takes a list of KOs and finds producible
-compounds via KEGG reactions, assigning their origin (dietary vs. microbial).</p>
+compounds via KEGG reactions, assigning their origin (host vs. microbial).</p>
 </div>
 <hr />
 <h2 id="step-3-foodb-workflow">Step 3 — FooDB Workflow</h2>
