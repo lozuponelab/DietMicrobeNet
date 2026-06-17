@@ -51,14 +51,13 @@ In the app:
 
 !!! tip "No FFQ? No problem."
     You can run the pipeline using all foods available in FooDB. Skip food metadata
-    creation in Step 3A, or pass the `foodb` and `all-foods` flags in the workflow runner.
+    creation in Step 3, or pass the `foodb` and `all-foods` flags in the workflow runner.
     Food compound reports are skipped due to dataset size.
 
 ---
 
 ## Step 2 — Choose a Compound Source
 
-### Option A: FooDB (Experimental)
 
 FooDB contains compounds identified in foods via LC-MS experiments, many of which link
 to KEGG. Core metabolic compounds (amino acids, sugars, fatty acids, nucleotides) are
@@ -67,19 +66,11 @@ be missing.
 
 **Limitations:** Incomplete compound coverage · Limited food representation · U.S.-centric food data
 
-### Option B: KEGG Whole Genomes (Genome-Based Prediction)
-
-Compounds are inferred from an organism's genome based on its metabolic capabilities
-using KEGG organism data.
-
-**Limitations:** Requires decomposing complex foods into components · Doesn't account for
-ripeness or cooking · Predictions may not reflect actual composition
-
 ![Graph Creation Methods](img/graph_creation_workflow.png)
 
 !!! note
     [AMON](https://github.com/lozuponelab/AMON) takes a list of KOs and finds producible
-    compounds via KEGG reactions, assigning their origin (dietary vs. microbial).
+    compounds via KEGG reactions, assigning their origin (host vs. microbial).
 
 ---
 
