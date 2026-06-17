@@ -10,12 +10,11 @@ graph structure for analyzing metabolic interactions between food and gut microb
 ```mermaid
 graph LR
   A[FFQ / Food List] --> B[Compound Source]
-  B --> C1[FooDB Workflow]
-  B --> C2[Whole Genome Workflow]
-  C1 --> D[Graph Data]
-  C2 --> D
+  B --> C[FooDB Workflow: DM and DMH]
+  C --> D[Graph Data]
   D --> E[Pattern Extraction]
-  E --> F[Visualization]
+  E --> F1[Visualization]
+  E --> F2[Metabolome]
 ```
 
 | Step | Description | Required |
@@ -132,6 +131,7 @@ python src/dietmicrobe/main_metab.py \
   --a "Abundance_RPKs" \
   --o "graph/"
 ```
+
 ---
 
 ## Step 4 — Microbial Compound Report *(optional)*
