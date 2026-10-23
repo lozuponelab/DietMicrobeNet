@@ -97,6 +97,10 @@ def main():
         if n1["origin"] == "both" and n2["origin"] == "both":
             append_result(results, c1, n1, c2, n2, edge)
 
+        # 4. both → microbe
+        if n1["origin"] == "both" and n2["origin"] == "microbe":
+            append_result(results, c1, n1, c2, n2, edge)
+
     # Convert to DataFrame
     df = pd.DataFrame(results)
     print(f"\n📊 Found {len(df)} matching relationships.")

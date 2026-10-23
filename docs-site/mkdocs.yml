@@ -22,7 +22,6 @@ nav:
   - Usage:
     - Running the Pipeline: usage.md
     - Inter-Sample Comparison: intersample_comp.md
-    - Metabolome Comparison: metabolome_comp.md
   - Output:
     - Output Files: output.md
   - Changelog: CHANGELOG.md
